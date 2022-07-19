@@ -1,4 +1,6 @@
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -9,7 +11,6 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         // connection link for api
-
         String url = "https://api.mocki.io/v2/549a5d8b";
         URI address = URI.create(url);
 
@@ -22,19 +23,23 @@ public class App {
 
 
         // extract data (title, image, imDbRating)
-
         var parser = new JsonParser();   // extract
         List<Map<String, String>> movieList = parser.parse(body);
-        System.out.println(movieList.size());
-        System.out.println(movieList.get(0));
 
 
         // show and manipulate data
-
+        var generator = new StickerFactory();
         for (Map<String, String> movie : movieList) {
-            System.out.println(movie.get("title"));
-            System.out.println(movie.get("image"));
-            System.out.println(movie.get("imDbRating"));
+
+            String urlImage = movie.get("image");
+            String title = movie.get("title");
+
+            InputStream inputStream = new URL(urlImage).openStream();
+            String fileName = title.replaceAll(":", " -") + ".png";
+
+            generator.create(inputStream, fileName);
+
+            System.out.println(title);
             System.out.println();
         }
 
