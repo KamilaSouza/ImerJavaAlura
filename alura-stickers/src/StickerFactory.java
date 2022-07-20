@@ -36,7 +36,14 @@ public class StickerFactory {
 
 
         // write text on image
-        graphics.drawString("Topzera", height / 5, (newHeight - newHeight/14));
+        String text = "TOPZERA";
+        int stringWidthLength = (int) graphics.getFontMetrics().getStringBounds(text, graphics).getWidth();
+      //  int stringHeightLength = (int) graphics.getFontMetrics().getStringBounds(comment, graphics).getHeight();
+
+        int horizontalCenter = newImage.getWidth() / 2 - stringWidthLength / 2;
+      //  int verticalCenter = newImage.getHeight() / 2 - stringHeightLength / 2;
+
+        graphics.drawString(text,horizontalCenter , (newHeight - newHeight/14));
 
 
         // put an image in the file
